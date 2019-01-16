@@ -40,7 +40,7 @@ I didn't have much trouble with this application. I wanted to create something t
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright [2019] [Kurtis Hoang]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
