@@ -8,14 +8,16 @@
 
 import UIKit
 
-class StoreViewController: UIViewController {
+class StoreViewController: UIViewController, UITextFieldDelegate {
     
-    var amount: [Int] = [0, 0, 0, 0]
+    var amount: [Int] = [0, 0, 0, 0, 0]
     
-    @IBOutlet weak var shirtAmt: UILabel!
-    @IBOutlet weak var jeansAmt: UILabel!
-    @IBOutlet weak var hatAmt: UILabel!
-    @IBOutlet weak var shoesAmt: UILabel!
+    @IBOutlet weak var burgerAmt: UILabel!
+    @IBOutlet weak var friesAmt: UILabel!
+    @IBOutlet weak var sodaAmt: UILabel!
+    @IBOutlet weak var saladAmt: UILabel!
+    @IBOutlet weak var extrasAmt: UILabel!
+    @IBOutlet weak var extras: UITextField!
     
     @IBOutlet weak var proceedButton: UIButton!
     
@@ -26,46 +28,68 @@ class StoreViewController: UIViewController {
         //round out the corner of the proceed button
         proceedButton.layer.cornerRadius = 15
         proceedButton.clipsToBounds = true
+        
+        //listen for keyboard events
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
     
-    @IBAction func shirtIncrement(_ sender: Any) {
+    deinit {
+        //stop listening for keyboard show/hide events
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    }
+    
+    @IBAction func burgerIncrement(_ sender: Any) {
         incrementNum(i: 0)
-        shirtAmt.text = String(amount[0])
+        burgerAmt.text = String(amount[0])
     }
     
-    @IBAction func shirtDecrement(_ sender: Any) {
+    @IBAction func burgerDecrement(_ sender: Any) {
         decrementNum(i: 0)
-        shirtAmt.text = String(amount[0])
+        burgerAmt.text = String(amount[0])
     }
     
-    @IBAction func jeansIncrement(_ sender: Any) {
+    @IBAction func friesIncrement(_ sender: Any) {
         incrementNum(i: 1)
-        jeansAmt.text = String(amount[1])
+        friesAmt.text = String(amount[1])
     }
     
-    @IBAction func jeansDecrement(_ sender: Any) {
+    @IBAction func friesDecrement(_ sender: Any) {
         decrementNum(i: 1)
-        jeansAmt.text = String(amount[1])
+        friesAmt.text = String(amount[1])
     }
     
-    @IBAction func hatIncrement(_ sender: Any) {
+    @IBAction func sodaIncrement(_ sender: Any) {
         incrementNum(i: 2)
-        hatAmt.text = String(amount[2])
+        sodaAmt.text = String(amount[2])
     }
     
-    @IBAction func hatDecrement(_ sender: Any) {
-        incrementNum(i: 2)
-        hatAmt.text = String(amount[2])
+    @IBAction func sodaDecrement(_ sender: Any) {
+        decrementNum(i: 2)
+        sodaAmt.text = String(amount[2])
     }
     
-    @IBAction func shoesIncrement(_ sender: Any) {
+    @IBAction func saladIncrement(_ sender: Any) {
         incrementNum(i: 3)
-        shoesAmt.text = String(amount[3])
+        saladAmt.text = String(amount[3])
     }
     
-    @IBAction func shoesDecrement(_ sender: Any) {
+    @IBAction func saladDecrement(_ sender: Any) {
         decrementNum(i: 3)
-        shoesAmt.text = String(amount[3])
+        saladAmt.text = String(amount[3])
+    }
+    
+    @IBAction func extrasIncrement(_ sender: Any) {
+        incrementNum(i: 4)
+        extrasAmt.text = String(amount[4])
+    }
+    
+    @IBAction func extrasDecrement(_ sender: Any) {
+        decrementNum(i: 4)
+        extrasAmt.text = String(amount[4])
     }
     
     func incrementNum(i: Int)
@@ -84,6 +108,34 @@ class StoreViewController: UIViewController {
         }
     }
     
+    @IBAction func inputEnded(_ sender: Any) {
+        if(extras.text == "")
+        {
+            extras.text = "0.00"
+        }
+    }
+    
+    @objc func keyboardWillChange(notification: Notification)
+    {
+        //show notification of keyboard events
+        //print("keyboard will show: \(notification.name.rawValue)")
+        
+        //get keyboardRect
+        guard let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+            return
+        }
+        
+        if(notification.name == UIResponder.keyboardWillShowNotification || notification.name == UIResponder.keyboardWillChangeFrameNotification)
+        {
+            //move view up
+            view.frame.origin.y = -keyboardRect.height
+        }
+        else
+        {
+            //move view up
+            view.frame.origin.y = 0
+        }
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
@@ -92,6 +144,7 @@ class StoreViewController: UIViewController {
             if let destination = segue.destination as? receiptViewController
             {
                 destination.amount = amount
+                destination.extras = extras.text
             }
         }
     }

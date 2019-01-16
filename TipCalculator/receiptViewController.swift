@@ -10,7 +10,9 @@ import UIKit
 
 class receiptViewController: UIViewController {
     
-    var amount: [Int] = [0, 0, 0, 0]
+    var amount: [Int] = [0, 0, 0, 0, 0]
+    
+    var extras: String?
     
     @IBOutlet weak var dateTime: UILabel!
     @IBOutlet weak var productLabel: UILabel!
@@ -31,7 +33,8 @@ class receiptViewController: UIViewController {
         //get date and time
         getCurrentDateTime()
         //create label receipt of products
-        productLabel.text = String(amount[0]) + "   burgers \t\t\t\t\t\t\t$8.99\n\n" + String(amount[1]) + "   Fries \t\t\t\t\t\t\t\t$3.40\n\n" + String(amount[2]) + "   Soda \t\t\t\t\t\t\t\t$1.75\n\n" + String(amount[3]) + "   Salad \t\t\t\t\t\t\t\t$6.99"
+        productLabel.text = String(amount[0]) + "   burgers \t\t\t\t\t\t\t$8.99\n\n" + String(amount[1]) + "   Fries \t\t\t\t\t\t\t\t$3.40\n\n" + String(amount[2]) + "   Soda \t\t\t\t\t\t\t\t$1.75\n\n" + String(amount[3]) + "   Salad \t\t\t\t\t\t\t\t$6.99\n\n"
+        productLabel.text = productLabel.text! + String(amount[4]) + "    Extras \t\t\t\t\t\t\t\t$" + extras!
         productLabel.sizeToFit()
         //default stuff when view been loaded
         tipLabel.text = "10%"
@@ -69,7 +72,7 @@ class receiptViewController: UIViewController {
     
     func calculateSubtotal()
     {
-        var subtotal = (Double(amount[0]) * 8.99) + (Double(amount[1]) * 3.40) + (Double(amount[2]) * 1.75) + (Double(amount[3]) * 6.99)
+        var subtotal = (Double(amount[0]) * 8.99) + (Double(amount[1]) * 3.40) + (Double(amount[2]) * 1.75) + (Double(amount[3]) * 6.99) + (Double(extras!)! * Double(amount[4]))
         //rounded up two decimal places
         subtotal = round(subtotal * 100) / 100
         subTotal.text = String(subtotal)
