@@ -19,10 +19,15 @@ class receiptViewController: UIViewController {
     @IBOutlet weak var tipControl: UISegmentedControl!
     @IBOutlet weak var tipLabel: UILabel!
     
+    @IBOutlet weak var acceptButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        //round out the corner of the accept button
+        acceptButton.layer.cornerRadius = 15
+        acceptButton.clipsToBounds = true
         //get date and time
         getCurrentDateTime()
         //create label receipt of products
@@ -77,5 +82,17 @@ class receiptViewController: UIViewController {
         //rounded up two decimal places
         addedTip = round(addedTip * 100) / 100
         total.text = String(addedTip)
+    }
+    
+    @IBAction func acceptButtonPressed(_ sender: Any) {
+        //creating an alert box
+        let alert = UIAlertController(title: "Thank you and Have a nice day!", message: "Your order has been received and it will be delivered to you in about 35 minutes.", preferredStyle: .alert)
+        
+        //okay button
+        let okayButton = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
+        
+        //add the okay button to alert
+        alert.addAction(okayButton)
+        self.present(alert, animated: true, completion:  nil)
     }
 }

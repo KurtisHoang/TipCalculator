@@ -316,12 +316,25 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UVi-5Z-D1j">
+                                <rect key="frame" x="137" y="603" width="101" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.89411764709999997" green="0.89411764709999997" blue="0.89411764709999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <state key="normal" title="Accept">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="acceptButtonPressed:" destination="qVj-CR-wNh" eventType="touchUpInside" id="eZE-Ry-beN"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="PDr-eF-qRT"/>
                     </view>
                     <navigationItem key="navigationItem" title="Receipt" id="Rha-of-XJF"/>
                     <connections>
+                        <outlet property="acceptButton" destination="UVi-5Z-D1j" id="McC-OL-Q8L"/>
                         <outlet property="dateTime" destination="tmg-AK-yO7" id="ImA-ww-jtW"/>
                         <outlet property="productLabel" destination="Mfn-qX-XWj" id="S9C-WM-2Ne"/>
                         <outlet property="subTotal" destination="LHG-Sz-WNX" id="bIY-h1-6no"/>
